@@ -1,5 +1,6 @@
-Empowered is an accessible, affordable, and effective digital trauma support system for students and holds access to educational resources and modules for students to still meet the proper needs of education.
-
+<h1>Empowered</h1> 
+is an accessible, affordable, and effective <b>digital trauma support system</b> for students and holds access to educational resources and modules for students to still meet the proper needs of education.
+<br><br>
 Instructions for Installing and Setting Up:
 - Install the following for Flutter 
   sdk: flutter
@@ -18,13 +19,17 @@ Instructions for Installing and Setting Up:
   express 
   socket.i'o
 - Install SupaBase for the DataBase requirement
-
+<br>
 Instructions for Running and Testing:
 - Once the application loads in, create an account.
 - Once done, Sign in into the application
-
+<br><br>
 Credits:
+<br>
 Rafael Calixtro
+<br>
 Aaron Acosta
+<br>
 Aldrin Gonzales
+<br>
 Rod Duran
