@@ -1,0 +1,37 @@
+name: empowered
+description: A cross-platform Flutter app for Digital Trauma Support for Students.
+
+publish_to: 'none'
+
+version: 1.0.0+1
+
+environment:
+  sdk: '>=2.19.0 <3.0.0'
+
+dependencies:
+  flutter:
+    sdk: flutter
+  cupertino_icons: ^1.0.2
+  supabase_flutter: ^1.10.4
+  uni_links: ^0.5.1
+  intl: ^0.18.0
+  flutter_svg: ^2.0.5
+  url_launcher: ^6.1.11
+  socket_io_client: ^2.0.2
+  http: ^0.13.5
+  flutter_webrtc: 0.9.36
+  web_socket_channel: ^2.4.0
+  js: ^0.6.3
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^2.0.0
+
+flutter:
+  uses-material-design: true
+
+  assets:
+    - assets/images/
+    - assets/icons/
+    - assets/images/logo.png
