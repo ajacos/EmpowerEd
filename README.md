@@ -1,21 +1,30 @@
-<<<<<<< HEAD
-# empowered
+Empowered is an accessible, affordable, and effective digital trauma support system for students and holds access to educational resources and modules for students to still meet the proper needs of education.
 
-A new Flutter project.
+Instructions for Installing and Setting Up:
+- Install the following for Flutter 
+  sdk: flutter
+  cupertino_icons: ^1.0.2
+  supabase_flutter: ^1.10.4
+  uni_links: ^0.5.1
+  intl: ^0.18.0
+  flutter_svg: ^2.0.5
+  url_launcher: ^6.1.11
+  socket_io_client: ^2.0.2
+  http: ^0.13.5
+  flutter_webrtc: 0.9.36
+  web_socket_channel: ^2.4.0
+  js: ^0.6.3
+- Install the following for Node
+  express 
+  socket.i'o
+- Install SupaBase for the DataBase requirement
 
-## Getting Started
+Instructions for Running and Testing:
+- Once the application loads in, create an account.
+- Once done, Sign in into the application
 
-This project is a starting point for a Flutter application.
-
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
-=======
-# EmpowerEd
-By PSD.com
->>>>>>> f1f1b4a60caa52c1536fe14ccca2c1693cdf3945
+Credits:
+Rafael Calixtro
+Aaron Acosta
+Aldrin Gonzales
+Rod Duran
