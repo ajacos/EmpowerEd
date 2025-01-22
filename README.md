@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # empowered
 
 A new Flutter project.
@@ -14,3 +15,7 @@ A few resources to get you started if this is your first Flutter project:
 For help getting started with Flutter development, view the
 [online documentation](https://docs.flutter.dev/), which offers tutorials,
 samples, guidance on mobile development, and a full API reference.
+=======
+# EmpowerEd
+By PSD.com
+>>>>>>> f1f1b4a60caa52c1536fe14ccca2c1693cdf3945
