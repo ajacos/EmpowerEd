@@ -36,3 +36,5 @@ flutter:
     - assets/images/
     - assets/icons/
     - assets/images/logo.png
+    - assets/data/educational_content.json
+

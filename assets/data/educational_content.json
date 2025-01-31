@@ -1,0 +1,759 @@
+{
+    "topics": [
+      {
+        "title": "Stress Management",
+        "modules": [
+          {
+            "title": "Understanding Stress",
+            "content": "This module covers the basics of stress, its causes, and how it affects our body and mind.",
+            "quiz": [
+              {
+                "question": "What is the 'fight or flight' response?",
+                "options": [
+                  "A martial arts technique",
+                  "The body's stress response",
+                  "A conflict resolution strategy",
+                  "A type of exercise"
+                ],
+                "correctAnswer": 1
+              },
+              {
+                "question": "Which of these is NOT a common physical symptom of stress?",
+                "options": ["Headaches", "Muscle tension", "Improved digestion", "Fatigue"],
+                "correctAnswer": 2
+              },
+              {
+                "question": "What does cortisol do in the body during stress?",
+                "options": ["Decreases heart rate", "Increases blood sugar", "Improves memory", "Reduces inflammation"],
+                "correctAnswer": 1
+              },
+              {
+                "question": "Which type of stress can be beneficial in small doses?",
+                "options": ["Chronic stress", "Acute stress", "Eustress", "Distress"],
+                "correctAnswer": 2
+              },
+              {
+                "question": "What is the term for long-term, persistent stress?",
+                "options": ["Acute stress", "Episodic stress", "Chronic stress", "Eustress"],
+                "correctAnswer": 2
+              }
+            ],
+            "reflectionPrompt": "Think about a recent stressful situation. How did your body and mind react? Can you identify the stressors and your response to them?"
+          },
+          {
+            "title": "Stress Reduction Techniques",
+            "content": "Learn various techniques to reduce stress, including deep breathing, progressive muscle relaxation, and mindfulness meditation.",
+            "quiz": [
+              {
+                "question": "What is the 4-7-8 breathing technique used for?",
+                "options": ["Improving lung capacity", "Reducing stress", "Curing insomnia", "Boosting energy"],
+                "correctAnswer": 1
+              },
+              {
+                "question": "Which of these is a key principle of mindfulness meditation?",
+                "options": [
+                  "Focusing on the future",
+                  "Judging your thoughts",
+                  "Non-judgmental awareness",
+                  "Avoiding all thoughts"
+                ],
+                "correctAnswer": 2
+              },
+              {
+                "question": "What is progressive muscle relaxation?",
+                "options": [
+                  "A weightlifting technique",
+                  "A type of massage",
+                  "A method of tensing and relaxing muscle groups",
+                  "A yoga pose"
+                ],
+                "correctAnswer": 2
+              },
+              {
+                "question": "How long should a typical mindfulness meditation session last for beginners?",
+                "options": ["5-10 minutes", "30-60 minutes", "2-3 hours", "All day"],
+                "correctAnswer": 0
+              },
+              {
+                "question": "Which of these is NOT a benefit of regular deep breathing exercises?",
+                "options": ["Lowered blood pressure", "Reduced anxiety", "Improved digestion", "Increased stress levels"],
+                "correctAnswer": 3
+              }
+            ],
+            "reflectionPrompt": "Which stress reduction technique resonated with you the most? How do you plan to incorporate it into your daily routine?"
+          },
+          {
+            "title": "Building Resilience",
+            "content": "Discover strategies to build emotional resilience and cope better with stress in the long term.",
+            "quiz": [
+              {
+                "question": "What is resilience?",
+                "options": [
+                  "The ability to avoid all stress",
+                  "The capacity to recover from difficulties",
+                  "A type of meditation",
+                  "A personality trait that can't be changed"
+                ],
+                "correctAnswer": 1
+              },
+              {
+                "question": "Which of these is NOT a characteristic of resilient people?",
+                "options": ["Optimism", "Flexibility", "Social support", "Perfectionism"],
+                "correctAnswer": 3
+              },
+              {
+                "question": "What is the benefit of reframing negative situations?",
+                "options": [
+                  "It changes the situation",
+                  "It helps find opportunities for growth",
+                  "It eliminates all stress",
+                  "It makes problems disappear"
+                ],
+                "correctAnswer": 1
+              },
+              {
+                "question": "How can setting goals contribute to resilience?",
+                "options": [
+                  "It creates more stress",
+                  "It provides a sense of purpose",
+                  "It eliminates the need for social support",
+                  "It guarantees success"
+                ],
+                "correctAnswer": 1
+              },
+              {
+                "question": "Which of these activities can help build resilience?",
+                "options": ["Isolating yourself", "Avoiding challenges", "Regular exercise", "Dwelling on problems"],
+                "correctAnswer": 2
+              }
+            ],
+            "reflectionPrompt": "Reflect on a time when you demonstrated resilience. What strategies did you use, and how can you apply them to future challenges?"
+          }
+        ]
+      },
+      {
+        "title": "Emotional Intelligence",
+        "modules": [
+          {
+            "title": "Understanding Emotions",
+            "content": "Learn about the nature of emotions, their purpose, and how they influence our thoughts and behaviors.",
+            "quiz": [
+              {
+                "question": "What is emotional intelligence?",
+                "options": [
+                  "The ability to avoid emotions",
+                  "The capacity to be aware of, control, and express emotions",
+                  "Having a high IQ",
+                  "Being always happy"
+                ],
+                "correctAnswer": 1
+              },
+              {
+                "question": "Which of these is NOT one of the basic emotions according to Paul Ekman?",
+                "options": ["Happiness", "Surprise", "Contempt", "Love"],
+                "correctAnswer": 3
+              },
+              {
+                "question": "What is the purpose of emotions?",
+                "options": [
+                  "To make us irrational",
+                  "To guide our behavior and help us survive",
+                  "To create problems in relationships",
+                  "To make life difficult"
+                ],
+                "correctAnswer": 1
+              },
+              {
+                "question": "What does 'emotional granularity' refer to?",
+                "options": [
+                  "The intensity of emotions",
+                  "The ability to precisely identify and label emotions",
+                  "The process of suppressing emotions",
+                  "The speed of emotional changes"
+                ],
+                "correctAnswer": 1
+              },
+              {
+                "question": "Which part of the brain is primarily responsible for processing emotions?",
+                "options": ["Cerebellum", "Frontal lobe", "Amygdala", "Hippocampus"],
+                "correctAnswer": 2
+              }
+            ],
+            "reflectionPrompt": "Think about a recent emotional experience. Can you identify the specific emotions you felt and what triggered them?"
+          },
+          {
+            "title": "Emotional Regulation",
+            "content": "Explore techniques for managing and regulating your emotions effectively.",
+            "quiz": [
+              {
+                "question": "What is emotional regulation?",
+                "options": [
+                  "Suppressing all emotions",
+                  "The ability to manage and respond to emotions effectively",
+                  "Always being happy",
+                  "Avoiding emotional situations"
+                ],
+                "correctAnswer": 1
+              },
+              {
+                "question": "Which of these is NOT a healthy emotional regulation strategy?",
+                "options": ["Cognitive reappraisal", "Mindfulness", "Emotional suppression", "Problem-solving"],
+                "correctAnswer": 2
+              },
+              {
+                "question": "What is the first step in managing difficult emotions?",
+                "options": [
+                  "Reacting immediately",
+                  "Suppressing the emotion",
+                  "Identifying the emotion",
+                  "Blaming others"
+                ],
+                "correctAnswer": 2
+              },
+              {
+                "question": "Which technique involves changing your perspective on a situation?",
+                "options": ["Suppression", "Distraction", "Cognitive reappraisal", "Venting"],
+                "correctAnswer": 2
+              },
+              {
+                "question": "What is the 'name it to tame it' technique?",
+                "options": [
+                  "A method for remembering names",
+                  "Labeling emotions to reduce their intensity",
+                  "A technique for training pets",
+                  "A way to organize tasks"
+                ],
+                "correctAnswer": 1
+              }
+            ],
+            "reflectionPrompt": "Describe a situation where you successfully regulated your emotions. What strategies did you use, and how did they help?"
+          },
+          {
+            "title": "Empathy and Social Skills",
+            "content": "Develop your ability to understand and relate to others' emotions, and improve your social interactions.",
+            "quiz": [
+              {
+                "question": "What is empathy?",
+                "options": [
+                  "Feeling pity for others",
+                  "The ability to understand and share the feelings of another",
+                  "Giving advice to others",
+                  "Avoiding emotional people"
+                ],
+                "correctAnswer": 1
+              },
+              {
+                "question": "Which of these is NOT a type of empathy?",
+                "options": ["Cognitive empathy", "Emotional empathy", "Compassionate empathy", "Reactive empathy"],
+                "correctAnswer": 3
+              },
+              {
+                "question": "What is active listening?",
+                "options": [
+                  "Interrupting to give advice",
+                  "Fully concentrating on and engaging with the speaker",
+                  "Thinking about what to say next",
+                  "Multitasking while someone is speaking"
+                ],
+                "correctAnswer": 1
+              },
+              {
+                "question": "Which of these is a benefit of developing strong social skills?",
+                "options": [
+                  "Reduced need for human interaction",
+                  "Improved conflict resolution",
+                  "Decreased empathy",
+                  "Increased stress levels"
+                ],
+                "correctAnswer": 1
+              },
+              {
+                "question": "What is the role of non-verbal communication in social interactions?",
+                "options": [
+                  "It's not important",
+                  "It can convey emotions and attitudes",
+                  "It only matters in formal settings",
+                  "It's only relevant in written communication"
+                ],
+                "correctAnswer": 1
+              }
+            ],
+            "reflectionPrompt": "Recall a time when you demonstrated empathy. How did it affect the interaction and your relationship with the other person?"
+          }
+        ]
+      },
+      {
+        "title": "Mindfulness and Meditation",
+        "modules": [
+          {
+            "title": "Introduction to Mindfulness",
+            "content": "Learn the basics of mindfulness, its benefits, and how to incorporate it into daily life.",
+            "quiz": [
+              {
+                "question": "What is mindfulness?",
+                "options": [
+                  "Thinking about the future",
+                  "Being aware of the present moment",
+                  "Analyzing past events",
+                  "Ignoring your surroundings"
+                ],
+                "correctAnswer": 1
+              },
+              {
+                "question": "Which of these is NOT a benefit of practicing mindfulness?",
+                "options": ["Reduced stress", "Improved focus", "Enhanced memory", "Guaranteed financial success"],
+                "correctAnswer": 3
+              },
+              {
+                "question": "What is the main goal of mindfulness practice?",
+                "options": [
+                  "To fall asleep",
+                  "To solve problems",
+                  "To be aware without judgment",
+                  "To plan for the future"
+                ],
+                "correctAnswer": 2
+              },
+              {
+                "question": "Which of these activities can be done mindfully?",
+                "options": ["Eating", "Walking", "Breathing", "All of the above"],
+                "correctAnswer": 3
+              },
+              {
+                "question": "What does it mean to be 'present' in mindfulness?",
+                "options": [
+                  "Thinking about the past",
+                  "Planning for the future",
+                  "Focusing on current experiences",
+                  "Multitasking efficiently"
+                ],
+                "correctAnswer": 2
+              }
+            ],
+            "reflectionPrompt": "Describe a moment when you were fully present and mindful. How did it feel different from your usual state of mind?"
+          },
+          {
+            "title": "Meditation Techniques",
+            "content": "Explore various meditation techniques, including focused attention, open monitoring, and loving-kindness meditation.",
+            "quiz": [
+              {
+                "question": "What is the focus of attention in a basic breath meditation?",
+                "options": ["Your thoughts", "Your breath", "Your surroundings", "Your emotions"],
+                "correctAnswer": 1
+              },
+              {
+                "question": "Which meditation technique involves observing thoughts without judgment?",
+                "options": ["Focused attention", "Open monitoring", "Transcendental meditation", "Visualization"],
+                "correctAnswer": 1
+              },
+              {
+                "question": "What is the purpose of a body scan meditation?",
+                "options": [
+                  "To fall asleep",
+                  "To increase body awareness",
+                  "To diagnose medical conditions",
+                  "To improve physical fitness"
+                ],
+                "correctAnswer": 1
+              },
+              {
+                "question": "What is loving-kindness meditation aimed at cultivating?",
+                "options": ["Romantic love", "Compassion and goodwill", "Self-criticism", "Detachment from others"],
+                "correctAnswer": 1
+              },
+              {
+                "question": "Which of these is NOT a common obstacle in meditation?",
+                "options": ["Restlessness", "Sleepiness", "Doubt", "Increased focus"],
+                "correctAnswer": 3
+              }
+            ],
+            "reflectionPrompt": "Which meditation technique resonates with you the most? How do you think it could benefit your daily life?"
+          },
+          {
+            "title": "Mindfulness in Daily Life",
+            "content": "Learn how to apply mindfulness principles to everyday activities and challenges.",
+            "quiz": [
+              {
+                "question": "What is informal mindfulness practice?",
+                "options": [
+                  "Meditating for hours",
+                  "Being mindful during everyday activities",
+                  "Attending mindfulness retreats",
+                  "Reading about mindfulness"
+                ],
+                "correctAnswer": 1
+              },
+              {
+                "question": "How can mindfulness be applied to eating?",
+                "options": [
+                  "Eating as fast as possible",
+                  "Multitasking while eating",
+                  "Paying attention to the sensory experience of eating",
+                  "Skipping meals"
+                ],
+                "correctAnswer": 2
+              },
+              {
+                "question": "What is the purpose of a mindful pause during the day?",
+                "options": [
+                  "To take a nap",
+                  "To check social media",
+                  "To reconnect with the present moment",
+                  "To plan the rest of the day"
+                ],
+                "correctAnswer": 2
+              },
+              {
+                "question": "How can mindfulness help with stress management?",
+                "options": [
+                  "By eliminating all stressors",
+                  "By increasing awareness of stress reactions",
+                  "By encouraging avoidance of stressful situations",
+                  "By promoting constant positive thinking"
+                ],
+                "correctAnswer": 1
+              },
+              {
+                "question": "Which of these is a mindful communication practice?",
+                "options": [
+                  "Interrupting others",
+                  "Formulating responses while others are speaking",
+                  "Listening attentively without judgment",
+                  "Avoiding all communication"
+                ],
+                "correctAnswer": 2
+              }
+            ],
+            "reflectionPrompt": "Identify one daily activity where you could incorporate mindfulness. How might this change your experience of that activity?"
+          }
+        ]
+      },
+      {
+        "title": "Cognitive Behavioral Techniques",
+        "modules": [
+          {
+            "title": "Understanding Cognitive Distortions",
+            "content": "Learn about common cognitive distortions and how they affect our thoughts and behaviors.",
+            "quiz": [
+              {
+                "question": "What are cognitive distortions?",
+                "options": [
+                  "Accurate thoughts",
+                  "Irrational thought patterns",
+                  "Positive affirmations",
+                  "Mindfulness techniques"
+                ],
+                "correctAnswer": 1
+              },
+              {
+                "question": "Which of these is an example of 'all-or-nothing' thinking?",
+                "options": [
+                  "I'm not perfect, so I'm a complete failure",
+                  "I didn't do well on one test, but I can improve",
+                  "Sometimes things don't go as planned",
+                  "I have both strengths and weaknesses"
+                ],
+                "correctAnswer": 0
+              },
+              {
+                "question": "What is 'catastrophizing'?",
+                "options": [
+                  "Thinking positively",
+                  "Assuming the worst possible outcome",
+                  "Planning for the future",
+                  "positively",
+                  "Assuming the worst possible outcome",
+                  "Planning for the future",
+                  "Analyzing past events"
+                ],
+                "correctAnswer": 1
+              },
+              {
+                "question": "What is 'overgeneralization'?",
+                "options": [
+                  "Making specific, accurate statements",
+                  "Applying a single negative experience to all situations",
+                  "Being optimistic",
+                  "Focusing on details"
+                ],
+                "correctAnswer": 1
+              },
+              {
+                "question": "Which cognitive distortion involves taking things personally when they aren't related to you?",
+                "options": ["Mind reading", "Personalization", "Fallacy of fairness", "Emotional reasoning"],
+                "correctAnswer": 1
+              }
+            ],
+            "reflectionPrompt": "Can you identify a recent situation where you experienced a cognitive distortion? How did it affect your thoughts and behavior?"
+          },
+          {
+            "title": "Challenging Negative Thoughts",
+            "content": "Learn techniques to identify, evaluate, and challenge negative thought patterns.",
+            "quiz": [
+              {
+                "question": "What is the first step in challenging negative thoughts?",
+                "options": [
+                  "Accepting them as truth",
+                  "Identifying the thought",
+                  "Ignoring the thought",
+                  "Acting on the thought immediately"
+                ],
+                "correctAnswer": 1
+              },
+              {
+                "question": "What is cognitive restructuring?",
+                "options": [
+                  "Avoiding all negative thoughts",
+                  "Changing your environment",
+                  "Identifying and challenging irrational thoughts",
+                  "Suppressing emotions"
+                ],
+                "correctAnswer": 2
+              },
+              {
+                "question": "Which question can help in evaluating the evidence for a negative thought?",
+                "options": [
+                  "What's the worst that could happen?",
+                  "Why do I always think this way?",
+                  "What facts support or contradict this thought?",
+                  "How can I avoid this situation in the future?"
+                ],
+                "correctAnswer": 2
+              },
+              {
+                "question": "What is a thought record used for in CBT?",
+                "options": [
+                  "To list daily activities",
+                  "To track and analyze thoughts and their impact",
+                  "To plan future events",
+                  "To record dreams"
+                ],
+                "correctAnswer": 1
+              },
+              {
+                "question": "Which of these is NOT a step in the ABCDE model for challenging thoughts?",
+                "options": ["Activating event", "Beliefs", "Consequences", "Distraction", "Effective new thought"],
+                "correctAnswer": 3
+              }
+            ],
+            "reflectionPrompt": "Think of a recent negative thought you had. How could you apply the techniques learned to challenge and reframe that thought?"
+          },
+          {
+            "title": "Behavioral Activation",
+            "content": "Explore the concept of behavioral activation and how it can be used to improve mood and overcome depression.",
+            "quiz": [
+              {
+                "question": "What is behavioral activation?",
+                "options": [
+                  "A type of medication",
+                  "A technique to increase engagement in positive activities",
+                  "A relaxation exercise",
+                  "A form of talk therapy"
+                ],
+                "correctAnswer": 1
+              },
+              {
+                "question": "Which of these is a key principle of behavioral activation?",
+                "options": [
+                  "Avoiding all unpleasant activities",
+                  "Waiting to feel motivated before acting",
+                  "Engaging in activities regardless of mood",
+                  "Focusing only on thoughts, not actions"
+                ],
+                "correctAnswer": 2
+              },
+              {
+                "question": "How does behavioral activation help in treating depression?",
+                "options": [
+                  "By eliminating all negative thoughts",
+                  "By increasing exposure to potentially rewarding experiences",
+                  "By encouraging isolation",
+                  "By promoting constant rest"
+                ],
+                "correctAnswer": 1
+              },
+              {
+                "question": "What is an activity hierarchy in behavioral activation?",
+                "options": [
+                  "A list of activities ranked by difficulty or anticipated pleasure",
+                  "A schedule for taking medications",
+                  "A hierarchy of people to avoid",
+                  "A list of negative thoughts"
+                ],
+                "correctAnswer": 0
+              },
+              {
+                "question": "Which of these is NOT a typical step in behavioral activation?",
+                "options": [
+                  "Monitoring mood",
+                  "Setting goals",
+                  "Scheduling activities",
+                  "Avoiding all social interactions"
+                ],
+                "correctAnswer": 3
+              }
+            ],
+            "reflectionPrompt": "Identify one activity you've been avoiding. How could you use behavioral activation principles to engage in this activity?"
+          }
+        ]
+      },
+      {
+        "title": "Building Healthy Relationships",
+        "modules": [
+          {
+            "title": "Effective Communication",
+            "content": "Learn the principles of effective communication and how to apply them in various relationships.",
+            "quiz": [
+              {
+                "question": "What is active listening?",
+                "options": [
+                  "Interrupting the speaker to share your own thoughts",
+                  "Fully concentrating on and engaging with the speaker",
+                  "Multitasking while someone is speaking",
+                  "Preparing your response while the other person is talking"
+                ],
+                "correctAnswer": 1
+              },
+              {
+                "question": "Which of these is NOT a component of effective communication?",
+                "options": ["Clarity", "Empathy", "Defensiveness", "Feedback"],
+                "correctAnswer": 2
+              },
+              {
+                "question": "What is the purpose of 'I' statements in communication?",
+                "options": [
+                  "To place blame on others",
+                  "To express feelings without accusing",
+                  "To avoid taking responsibility",
+                  "To show superiority"
+                ],
+                "correctAnswer": 1
+              },
+              {
+                "question": "Which communication style is characterized by respecting both your own and others' rights and needs?",
+                "options": ["Passive", "Aggressive", "Passive-aggressive", "Assertive"],
+                "correctAnswer": 3
+              },
+              {
+                "question": "What role does non-verbal communication play in effective communication?",
+                "options": [
+                  "It's not important",
+                  "It can reinforce or contradict verbal messages",
+                  "It only matters in formal settings",
+                  "It's only relevant in written communication"
+                ],
+                "correctAnswer": 1
+              }
+            ],
+            "reflectionPrompt": "Think about a recent conversation where communication was challenging. How could you have applied these effective communication principles to improve the interaction?"
+          },
+          {
+            "title": "Setting Boundaries",
+            "content": "Understand the importance of personal boundaries and learn how to set and maintain them in relationships.",
+            "quiz": [
+              {
+                "question": "What are personal boundaries?",
+                "options": [
+                  "Physical barriers",
+                  "Limits and rules we set for ourselves in relationships",
+                  "Laws and regulations",
+                  "Obstacles to intimacy"
+                ],
+                "correctAnswer": 1
+              },
+              {
+                "question": "Which of these is NOT a type of boundary?",
+                "options": ["Physical", "Emotional", "Time", "Unlimited"],
+                "correctAnswer": 3
+              },
+              {
+                "question": "What is the purpose of setting boundaries in relationships?",
+                "options": [
+                  "To push people away",
+                  "To control others",
+                  "To protect our well-being and respect our needs",
+                  "To avoid all conflicts"
+                ],
+                "correctAnswer": 2
+              },
+              {
+                "question": "Which of these is a sign of weak boundaries?",
+                "options": [
+                  "Saying no when necessary",
+                  "Sharing personal information too quickly",
+                  "Respecting others' limits",
+                  "Taking responsibility for your own happiness"
+                ],
+                "correctAnswer": 1
+              },
+              {
+                "question": "What is an important step in communicating boundaries?",
+                "options": [
+                  "Being vague and indirect",
+                  "Using 'you' statements to blame others",
+                  "Clearly and calmly expressing your limits",
+                  "Expecting others to read your mind"
+                ],
+                "correctAnswer": 2
+              }
+            ],
+            "reflectionPrompt": "Identify a relationship in your life where you need to set or reinforce a boundary. What steps can you take to establish this boundary?"
+          },
+          {
+            "title": "Conflict Resolution",
+            "content": "Learn strategies for managing and resolving conflicts in a healthy and constructive manner.",
+            "quiz": [
+              {
+                "question": "What is the first step in effective conflict resolution?",
+                "options": [
+                  "Avoiding the conflict",
+                  "Identifying the root cause of the conflict",
+                  "Blaming the other person",
+                  "Winning the argument at all costs"
+                ],
+                "correctAnswer": 1
+              },
+              {
+                "question": "Which conflict resolution style seeks a solution that partially satisfies both parties?",
+                "options": ["Competing", "Accommodating", "Compromising", "Avoiding"],
+                "correctAnswer": 2
+              },
+              {
+                "question": "What is active listening's role in conflict resolution?",
+                "options": [
+                  "It's not important in conflicts",
+                  "It helps in understanding the other person's perspective",
+                  "It allows you to prepare counterarguments",
+                  "It prolongs the conflict"
+                ],
+                "correctAnswer": 1
+              },
+              {
+                "question": "Which of these is NOT a recommended strategy for managing emotions during conflict?",
+                "options": [
+                  "Taking deep breaths",
+                  "Using 'I' statements",
+                  "Suppressing all emotions",
+                  "Taking a time-out if needed"
+                ],
+                "correctAnswer": 2
+              },
+              {
+                "question": "What is the goal of a win-win solution in conflict resolution?",
+                "options": [
+                  "One person gets everything they want",
+                  "Both parties feel satisfied with the outcome",
+                  "The conflict is ignored",
+                  "The relationship is ended"
+                ],
+                "correctAnswer": 1
+              }
+            ],
+            "reflectionPrompt": "Recall a recent conflict you experienced. How did you handle it, and how could you apply these conflict resolution strategies in future disagreements?"
+          }
+        ]
+      }
+    ]
+  }
+  
+  
