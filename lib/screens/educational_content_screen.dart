@@ -14,6 +14,10 @@ class _EducationalContentScreenState extends State<EducationalContentScreen> {
   int _currentTopicIndex = 0;
   int _currentModuleIndex = 0;
   bool _showingQuestionnaire = false;
+  bool _showingModuleList = true;
+  bool _showingReflection = false;
+  Map<String, int> _selectedAnswers = {};
+  String _reflectionText = '';
 
   final List<Map<String, dynamic>> educationalContent = [
     {
@@ -265,11 +269,51 @@ class _EducationalContentScreenState extends State<EducationalContentScreen> {
   }
 
   Widget _buildContent() {
-    if (_showingQuestionnaire) {
+    if (_showingModuleList) {
+      return _buildModuleList();
+    } else if (_showingQuestionnaire) {
       return _buildQuestionnaire();
+    } else if (_showingReflection) {
+      return _buildReflection();
     } else {
       return _buildModuleContent();
     }
+  }
+
+  Widget _buildModuleList() {
+    final currentTopic = educationalContent[_currentTopicIndex];
+    return SingleChildScrollView(
+      padding: EdgeInsets.all(16),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            currentTopic['title'],
+            style: TextStyle(fontSize: 28, fontWeight: FontWeight.bold, color: Colors.white),
+          ),
+          SizedBox(height: 16),
+          ...currentTopic['modules'].asMap().entries.map((entry) {
+            final index = entry.key;
+            final module = entry.value;
+            return Card(
+              color: Colors.white.withOpacity(0.1),
+              child: ListTile(
+                title: Text(module['title'], style: TextStyle(color: Colors.white)),
+                onTap: () => _selectModule(index),
+                trailing: Icon(Icons.arrow_forward_ios, color: Colors.white),
+              ),
+            );
+          }),
+        ],
+      ),
+    );
+  }
+
+  void _selectModule(int index) {
+    setState(() {
+      _currentModuleIndex = index;
+      _showingModuleList = false;
+    });
   }
 
   Widget _buildModuleContent() {
@@ -299,24 +343,20 @@ class _EducationalContentScreenState extends State<EducationalContentScreen> {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              if (_currentModuleIndex > 0)
-                ElevatedButton(
-                  onPressed: _previousModule,
-                  child: Text('Previous'),
-                  style: ElevatedButton.styleFrom(backgroundColor: Color(0xFF2196F3)),
-                ),
-              if (_currentModuleIndex < currentTopic['modules'].length - 1)
-                ElevatedButton(
-                  onPressed: _nextModule,
-                  child: Text('Next'),
-                  style: ElevatedButton.styleFrom(backgroundColor: Color(0xFF2196F3)),
-                ),
-              if (_currentModuleIndex == currentTopic['modules'].length - 1)
-                ElevatedButton(
-                  onPressed: _startQuestionnaire,
-                  child: Text('Start Questionnaire'),
-                  style: ElevatedButton.styleFrom(backgroundColor: Color(0xFF4CAF50)),
-                ),
+              ElevatedButton(
+                onPressed: () {
+                  setState(() {
+                    _showingModuleList = true;
+                  });
+                },
+                child: Text('Back to Modules'),
+                style: ElevatedButton.styleFrom(backgroundColor: Color(0xFF2196F3)),
+              ),
+              ElevatedButton(
+                onPressed: _startQuestionnaire,
+                child: Text('Start Questionnaire'),
+                style: ElevatedButton.styleFrom(backgroundColor: Color(0xFF4CAF50)),
+              ),
             ],
           ),
         ],
@@ -355,9 +395,11 @@ class _EducationalContentScreenState extends State<EducationalContentScreen> {
                   return RadioListTile<int>(
                     title: Text(option, style: TextStyle(color: Colors.white70)),
                     value: optionIndex,
-                    groupValue: null, // You would typically use a state variable here
+                    groupValue: _selectedAnswers['$index'],
                     onChanged: (value) {
-                      // Handle answer selection
+                      setState(() {
+                        _selectedAnswers['$index'] = value!;
+                      });
                     },
                     activeColor: Color(0xFF2196F3),
                   );
@@ -371,6 +413,53 @@ class _EducationalContentScreenState extends State<EducationalContentScreen> {
             child: ElevatedButton(
               onPressed: _finishQuestionnaire,
               child: Text('Finish Questionnaire'),
+              style: ElevatedButton.styleFrom(backgroundColor: Color(0xFF4CAF50)),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildReflection() {
+    return SingleChildScrollView(
+      padding: EdgeInsets.all(16),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            'Reflection',
+            style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold, color: Colors.white),
+          ),
+          SizedBox(height: 16),
+          Text(
+            'Take a moment to reflect on what you\'ve learned in this module. How can you apply this knowledge in your daily life?',
+            style: TextStyle(fontSize: 16, color: Colors.white70),
+          ),
+          SizedBox(height: 16),
+          TextField(
+            maxLines: 5,
+            decoration: InputDecoration(
+              hintText: 'Enter your reflection here...',
+              fillColor: Colors.white.withOpacity(0.1),
+              filled: true,
+              border: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(8),
+                borderSide: BorderSide.none,
+              ),
+            ),
+            style: TextStyle(color: Colors.white),
+            onChanged: (value) {
+              setState(() {
+                _reflectionText = value;
+              });
+            },
+          ),
+          SizedBox(height: 24),
+          Center(
+            child: ElevatedButton(
+              onPressed: _finishReflection,
+              child: Text('Finish Reflection'),
               style: ElevatedButton.styleFrom(backgroundColor: Color(0xFF4CAF50)),
             ),
           ),
@@ -404,15 +493,32 @@ class _EducationalContentScreenState extends State<EducationalContentScreen> {
   void _startQuestionnaire() {
     setState(() {
       _showingQuestionnaire = true;
+      _selectedAnswers = {};
     });
   }
 
   void _finishQuestionnaire() {
+    // Here you would typically process the answers
+    print('Selected answers: $_selectedAnswers');
+
     setState(() {
       _showingQuestionnaire = false;
+      _showingReflection = true;
+      _selectedAnswers = {};
+    });
+  }
+
+  void _finishReflection() {
+    // Here you would typically save the reflection text
+    print('Reflection: $_reflectionText');
+
+    setState(() {
+      _showingReflection = false;
+      _showingModuleList = true;
+      _reflectionText = '';
+
       if (_currentTopicIndex < educationalContent.length - 1) {
         _currentTopicIndex++;
-        _currentModuleIndex = 0;
       } else {
         // All topics completed
         // You could show a completion message or navigate to a different screen
