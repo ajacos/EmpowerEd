@@ -4,6 +4,82 @@ import 'package:web_socket_channel/web_socket_channel.dart';
 import 'dart:convert';
 import 'dart:async';
 import 'package:flutter/services.dart';
+import 'package:google_fonts/google_fonts.dart';
+import '../../widgets/sidebar.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
+
+class Sidebar extends StatelessWidget {
+  final User? user;
+  
+  const Sidebar({Key? key, this.user}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      width: 250,
+      color: Color(0xFF1A237E),
+      child: Column(
+        children: [
+          SizedBox(height: 50),
+          CircleAvatar(
+            radius: 50,
+            backgroundColor: Colors.white24,
+            child: Icon(Icons.person, size: 50, color: Colors.white),
+          ),
+          SizedBox(height: 10),
+          Text(
+            user?.email?.split('@')[0] ?? 'User',
+            style: TextStyle(color: Colors.white, fontSize: 18),
+          ),
+          SizedBox(height: 30),
+          _buildMenuItem(context, 'Home', Icons.home, () => Navigator.pushReplacementNamed(context, '/home')),
+          _buildMenuItem(context, 'Video Conference', Icons.video_call, () => Navigator.pushNamed(context, '/video')),
+          _buildMenuItem(context, 'Educational Content', Icons.school, () => Navigator.pushReplacementNamed(context, '/education')),
+          _buildMenuItem(context, 'Community Forum', Icons.forum, () {}),
+          _buildMenuItem(context, 'Resources', Icons.library_books, () {}),
+          Spacer(),
+          _buildMenuItem(context, 'Logout', Icons.logout, () => _showLogoutConfirmation(context)),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildMenuItem(BuildContext context, String title, IconData icon, VoidCallback onTap) {
+    return ListTile(
+      leading: Icon(icon, color: Colors.white70),
+      title: Text(title, style: TextStyle(color: Colors.white)),
+      onTap: onTap,
+    );
+  }
+
+  Future<void> _showLogoutConfirmation(BuildContext context) async {
+    return showDialog<void>(
+      context: context,
+      barrierDismissible: false,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          backgroundColor: Color(0xFF1A237E),
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+          title: Text('Confirm Logout', style: TextStyle(color: Colors.white)),
+          content: Text('Are you sure you want to log out?', style: TextStyle(color: Colors.white70)),
+          actions: <Widget>[
+            TextButton(
+              child: Text('Cancel', style: TextStyle(color: Colors.white70)),
+              onPressed: () => Navigator.of(context).pop(),
+            ),
+            TextButton(
+              child: Text('Logout', style: TextStyle(color: Colors.red[300])),
+              onPressed: () async {
+                await Supabase.instance.client.auth.signOut();
+                Navigator.of(context).pushNamedAndRemoveUntil('/', (Route<dynamic> route) => false);
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
+}
 
 class VideoConferenceScreen extends StatefulWidget {
   const VideoConferenceScreen({Key? key}) : super(key: key);
@@ -113,6 +189,7 @@ class _VideoConferenceScreenState extends State<VideoConferenceScreen> {
         'password': password,
         'userId': _userId,
       }));
+      _roomIdController.text = roomId; // Added line to update roomIdController
     } catch (e) {
       print('Error creating room: $e');
       _showError('Failed to create room. Please try again.');
@@ -120,6 +197,7 @@ class _VideoConferenceScreenState extends State<VideoConferenceScreen> {
   }
 
   Future<void> _joinRoom(String roomId) async {
+    _roomIdController.text = roomId; // Added line to update roomIdController
     if (roomId.length != 8) {
       _showError('Room ID must be 8 digits');
       return;
@@ -321,13 +399,25 @@ class _VideoConferenceScreenState extends State<VideoConferenceScreen> {
 
   void _showError(String message) {
     ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(content: Text(message), backgroundColor: Colors.red),
+      SnackBar(
+        content: Text(message, style: GoogleFonts.poppins()),
+        backgroundColor: Colors.red,
+        behavior: SnackBarBehavior.floating,
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+        margin: EdgeInsets.all(16),
+      ),
     );
   }
 
   void _showSnackBar(String message) {
     ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(content: Text(message)),
+      SnackBar(
+        content: Text(message, style: GoogleFonts.poppins()),
+        backgroundColor: Colors.green,
+        behavior: SnackBarBehavior.floating,
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+        margin: EdgeInsets.all(16),
+      ),
     );
   }
 
@@ -350,6 +440,33 @@ class _VideoConferenceScreenState extends State<VideoConferenceScreen> {
   }
 
   void _leaveRoom() {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text('Leave Call', style: GoogleFonts.poppins(color: Colors.white)),
+          content: Text('Are you sure you want to leave the call?', style: GoogleFonts.poppins(color: Colors.white70)),
+          backgroundColor: Color(0xFF1A237E),
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+          actions: <Widget>[
+            TextButton(
+              child: Text('Cancel', style: GoogleFonts.poppins(color: Colors.white70)),
+              onPressed: () => Navigator.of(context).pop(),
+            ),
+            TextButton(
+              child: Text('Leave', style: GoogleFonts.poppins(color: Colors.red[300])),
+              onPressed: () {
+                Navigator.of(context).pop();
+                _performLeaveRoom();
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  void _performLeaveRoom() {
     _socket?.sink.add(jsonEncode({
       'type': 'leave-room',
       'userId': _userId,
@@ -368,13 +485,63 @@ class _VideoConferenceScreenState extends State<VideoConferenceScreen> {
     });
   }
 
+  Widget _buildRoomInfo() {
+  return Container(
+    padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+    decoration: BoxDecoration(
+      color: Colors.black.withOpacity(0.5),
+      borderRadius: BorderRadius.circular(20),
+    ),
+    child: Row(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        Icon(Icons.video_call, color: Colors.white, size: 18),
+        SizedBox(width: 8),
+        Text(
+          'Room ID: ',
+          style: GoogleFonts.poppins(
+            color: Colors.white,
+            fontSize: 14,
+            fontWeight: FontWeight.w500,
+          ),
+        ),
+        SelectableText(
+          _roomIdController.text,
+          style: GoogleFonts.poppins(
+            color: Colors.white,
+            fontSize: 14,
+            fontWeight: FontWeight.w700,
+          ),
+        ),
+        SizedBox(width: 8),
+        IconButton(
+          icon: Icon(Icons.copy, color: Colors.white, size: 16),
+          onPressed: () {
+            Clipboard.setData(ClipboardData(text: _roomIdController.text)).then((_) {
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(
+                  content: Text('Room ID copied to clipboard', style: GoogleFonts.poppins()),
+                  backgroundColor: Colors.green,
+                  behavior: SnackBarBehavior.floating,
+                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+                  margin: EdgeInsets.all(16),
+                ),
+              );
+            });
+          },
+          tooltip: 'Copy Room ID',
+        ),
+      ],
+    ),
+  );
+}
+
   @override
   Widget build(BuildContext context) {
+    final user = Supabase.instance.client.auth.currentUser;
+    final isDesktop = MediaQuery.of(context).size.width > 900;
+
     return Scaffold(
-      appBar: AppBar(
-        title: Text('Video Conference'),
-        backgroundColor: Color(0xFF1A237E),
-      ),
       body: Container(
         decoration: BoxDecoration(
           gradient: LinearGradient(
@@ -384,159 +551,358 @@ class _VideoConferenceScreenState extends State<VideoConferenceScreen> {
           ),
         ),
         child: SafeArea(
-          child: _inCall ? _buildCallScreen() : _buildJoinScreen(),
-        ),
-      ),
-    );
-  }
-
-  Widget _buildJoinScreen() {
-    return Padding(
-      padding: const EdgeInsets.all(16.0),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Text(
-            _isCreatingRoom ? 'Create a Room' : 'Join a Room',
-            style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold, color: Colors.white),
-          ),
-          SizedBox(height: 24),
-          if (!_isCreatingRoom)
-            TextField(
-              controller: _roomIdController,
-              decoration: InputDecoration(
-                labelText: 'Room ID (8 digits)',
-                border: OutlineInputBorder(),
-                filled: true,
-                fillColor: Colors.white,
+          child: Row(
+            children: [
+              if (!_inCall && isDesktop) Sidebar(user: user),
+              Expanded(
+                child: _inCall ? _buildCallScreen(isDesktop) : _buildJoinScreen(isDesktop),
               ),
-              maxLength: 8,
-              keyboardType: TextInputType.number,
-              inputFormatters: [FilteringTextInputFormatter.digitsOnly],
-            ),
-          SizedBox(height: 16),
-          TextField(
-            controller: _passwordController,
-            decoration: InputDecoration(
-              labelText: 'Password',
-              border: OutlineInputBorder(),
-              filled: true,
-              fillColor: Colors.white,
-            ),
-            obscureText: true,
+            ],
           ),
-          SizedBox(height: 24),
-          ElevatedButton.icon(
-            onPressed: _isCreatingRoom ? _createRoom : () => _joinRoom(_roomIdController.text),
-            icon: Icon(Icons.video_call),
-            label: Text(_isCreatingRoom ? 'Create Room' : 'Join Room'),
-            style: ElevatedButton.styleFrom(
-              backgroundColor: Color(0xFF2196F3),
-              padding: EdgeInsets.symmetric(horizontal: 32, vertical: 16),
-            ),
-          ),
-          SizedBox(height: 16),
-          TextButton(
-            onPressed: () {
-              setState(() {
-                _isCreatingRoom = !_isCreatingRoom;
-              });
-            },
-            child: Text(
-              _isCreatingRoom ? 'Join an existing room' : 'Create a new room',
-              style: TextStyle(color: Colors.white),
-            ),
-          ),
-        ],
+        ),
       ),
     );
   }
 
-  Widget _buildCallScreen() {
-    return Column(
-      children: [
-        Expanded(
-          child: Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: _buildVideoGrid(),
+  Widget _buildJoinScreen(bool isDesktop) {
+    return Center(
+      child: SingleChildScrollView(
+        child: Container(
+          constraints: BoxConstraints(maxWidth: 500),
+          padding: EdgeInsets.all(24),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              Text(
+                _isCreatingRoom ? 'Create a Room' : 'Join a Room',
+                style: GoogleFonts.poppins(
+                  fontSize: 32,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.white,
+                ),
+                textAlign: TextAlign.center,
+              ),
+              SizedBox(height: 40),
+              if (!_isCreatingRoom)
+                _buildTextField(
+                  controller: _roomIdController,
+                  label: 'Room ID (8 digits)',
+                  maxLength: 8,
+                  keyboardType: TextInputType.number,
+                  inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+                ),
+              SizedBox(height: 16),
+              _buildTextField(
+                controller: _passwordController,
+                label: 'Password',
+                obscureText: true,
+              ),
+              SizedBox(height: 40),
+              _buildGradientButton(
+                onPressed: _isCreatingRoom ? _createRoom : () => _joinRoom(_roomIdController.text),
+                icon: Icons.video_call,
+                label: _isCreatingRoom ? 'Create Room' : 'Join Room',
+              ),
+              SizedBox(height: 24),
+              TextButton(
+                onPressed: () {
+                  setState(() {
+                    _isCreatingRoom = !_isCreatingRoom;
+                  });
+                },
+                child: Text(
+                  _isCreatingRoom ? 'Join an existing room' : 'Create a new room',
+                  style: GoogleFonts.poppins(
+                    color: Colors.white70,
+                    fontSize: 16,
+                  ),
+                ),
+              ),
+            ],
           ),
         ),
-        _buildControlBar(),
+      ),
+    );
+  }
+
+  Widget _buildTextField({
+    required TextEditingController controller,
+    required String label,
+    int? maxLength,
+    TextInputType? keyboardType,
+    List<TextInputFormatter>? inputFormatters,
+    bool obscureText = false,
+  }) {
+    return Container(
+      decoration: BoxDecoration(
+        color: Colors.white.withOpacity(0.1),
+        borderRadius: BorderRadius.circular(12),
+      ),
+      child: TextField(
+        controller: controller,
+        decoration: InputDecoration(
+          labelText: label,
+          labelStyle: GoogleFonts.poppins(color: Colors.white70),
+          border: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(12),
+            borderSide: BorderSide.none,
+          ),
+          filled: true,
+          fillColor: Colors.transparent,
+          contentPadding: EdgeInsets.symmetric(horizontal: 16, vertical: 16),
+        ),
+        style: GoogleFonts.poppins(color: Colors.white),
+        maxLength: maxLength,
+        keyboardType: keyboardType,
+        inputFormatters: inputFormatters,
+        obscureText: obscureText,
+      ),
+    );
+  }
+
+  Widget _buildGradientButton({
+    required VoidCallback onPressed,
+    required IconData icon,
+    required String label,
+  }) {
+    return Container(
+      decoration: BoxDecoration(
+        gradient: LinearGradient(
+          colors: [Color(0xFF2196F3), Color(0xFF1976D2)],
+          begin: Alignment.centerLeft,
+          end: Alignment.centerRight,
+        ),
+        borderRadius: BorderRadius.circular(30),
+      ),
+      child: ElevatedButton.icon(
+        onPressed: onPressed,
+        icon: Icon(icon),
+        label: Text(
+          label,
+          style: GoogleFonts.poppins(fontSize: 16),
+        ),
+        style: ElevatedButton.styleFrom(
+          backgroundColor: Colors.transparent,
+          shadowColor: Colors.transparent,
+          padding: EdgeInsets.symmetric(horizontal: 32, vertical: 16),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(30),
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildCallScreen(bool isDesktop) {
+    return Stack(
+      children: [
+        Container(
+          decoration: BoxDecoration(
+            gradient: LinearGradient(
+              begin: Alignment.topLeft,
+              end: Alignment.bottomRight,
+              colors: [Color(0xFF1A237E), Color(0xFF3949AB)],
+            ),
+          ),
+          child: Column(
+            children: [
+              Padding(
+                padding: EdgeInsets.symmetric(vertical: 16),
+                child: _buildRoomInfo(),
+              ),
+              Expanded(
+                child: _buildVideoGrid(isDesktop),
+              ),
+            ],
+          ),
+        ),
+        Positioned(
+          bottom: 0,
+          left: 0,
+          right: 0,
+          child: _buildControlBar(),
+        ),
       ],
     );
   }
 
-  Widget _buildVideoGrid() {
+
+  Widget _buildVideoGrid(bool isDesktop) {
     List<Widget> videoWidgets = [
       _buildVideoWidget(_localRenderer, isLocal: true),
       ..._remoteRenderers.entries.map((entry) => _buildVideoWidget(entry.value, remoteUserId: entry.key)),
     ];
 
-    return GridView.count(
-      crossAxisCount: videoWidgets.length <= 1 ? 1 : 2,
-      children: videoWidgets,
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        int crossAxisCount;
+        double childAspectRatio;
+
+        if (isDesktop) {
+          crossAxisCount = videoWidgets.length <= 1 ? 1 : (videoWidgets.length <= 4 ? 2 : 3);
+          childAspectRatio = 16 / 9;
+        } else {
+          crossAxisCount = videoWidgets.length <= 1 ? 1 : 2;
+          childAspectRatio = 3 / 4;
+        }
+
+        return GridView.count(
+          crossAxisCount: crossAxisCount,
+          childAspectRatio: childAspectRatio,
+          padding: EdgeInsets.all(8),
+          children: videoWidgets,
+        );
+      },
     );
   }
 
   Widget _buildVideoWidget(RTCVideoRenderer renderer, {bool isLocal = false, String? remoteUserId}) {
-    return Container(
-      margin: EdgeInsets.all(4),
-      decoration: BoxDecoration(
-        color: Colors.black,
-        borderRadius: BorderRadius.circular(8),
-      ),
-      child: ClipRRect(
-        borderRadius: BorderRadius.circular(8),
-        child: Stack(
-          children: [
-            RTCVideoView(
-              renderer,
-              objectFit: RTCVideoViewObjectFit.RTCVideoViewObjectFitCover,
-            ),
-            Positioned(
-              top: 8,
-              left: 8,
-              child: Container(
-                padding: EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-                decoration: BoxDecoration(
-                  color: Colors.black45,
-                  borderRadius: BorderRadius.circular(4),
-                ),
-                child: Text(
-                  isLocal ? 'You' : 'User ${remoteUserId?.substring(0, 4) ?? ""}',
-                  style: TextStyle(color: Colors.white),
-                ),
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        return Container(
+          margin: EdgeInsets.all(4),
+          decoration: BoxDecoration(
+            color: Colors.black,
+            borderRadius: BorderRadius.circular(16),
+            boxShadow: [
+              BoxShadow(
+                color: Colors.black.withOpacity(0.3),
+                blurRadius: 10,
+                offset: Offset(0, 4),
               ),
+            ],
+          ),
+          child: ClipRRect(
+            borderRadius: BorderRadius.circular(16),
+            child: Stack(
+              children: [
+                RTCVideoView(
+                  renderer,
+                  objectFit: RTCVideoViewObjectFit.RTCVideoViewObjectFitCover,
+                ),
+                Positioned(
+                  top: 8,
+                  left: 8,
+                  child: Container(
+                    padding: EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+                    decoration: BoxDecoration(
+                      color: Colors.black45,
+                      borderRadius: BorderRadius.circular(20),
+                    ),
+                    child: Text(
+                      isLocal ? 'You' : 'User ${remoteUserId?.substring(0, 4) ?? ""}',
+                      style: GoogleFonts.poppins(
+                        color: Colors.white,
+                        fontSize: 12,
+                        fontWeight: FontWeight.w500,
+                      ),
+                    ),
+                  ),
+                ),
+                if (isLocal)
+                  Positioned(
+                    bottom: 8,
+                    left: 8,
+                    child: Row(
+                      children: [
+                        _buildIndicator(_isMuted, Icons.mic_off),
+                        SizedBox(width: 8),
+                        _buildIndicator(_isVideoOff, Icons.videocam_off),
+                      ],
+                    ),
+                  ),
+              ],
             ),
-          ],
-        ),
+          ),
+        );
+      },
+    );
+  }
+
+  Widget _buildIndicator(bool isActive, IconData icon) {
+    return Container(
+      padding: EdgeInsets.all(4),
+      decoration: BoxDecoration(
+        color: isActive ? Colors.red : Colors.green,
+        shape: BoxShape.circle,
       ),
+      child: Icon(icon, color: Colors.white, size: 16),
     );
   }
 
   Widget _buildControlBar() {
     return Container(
-      padding: EdgeInsets.symmetric(vertical: 16),
-      color: Colors.black.withOpacity(0.2),
+      padding: EdgeInsets.symmetric(vertical: 16, horizontal: 24),
+      decoration: BoxDecoration(
+        gradient: LinearGradient(
+          begin: Alignment.bottomCenter,
+          end: Alignment.topCenter,
+          colors: [
+            Colors.black.withOpacity(0.8),
+            Colors.transparent,
+          ],
+        ),
+      ),
       child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          IconButton(
-            icon: Icon(_isMuted ? Icons.mic_off : Icons.mic),
-            onPressed: _toggleMute,
+          _buildControlButton(
+            icon: _isMuted ? Icons.mic_off : Icons.mic,
             color: _isMuted ? Colors.red : Colors.white,
+            onPressed: _toggleMute,
+            tooltip: _isMuted ? 'Unmute' : 'Mute',
           ),
-          IconButton(
-            icon: Icon(Icons.call_end),
-            onPressed: _leaveRoom,
+          SizedBox(width: 24),
+          _buildControlButton(
+            icon: Icons.call_end,
             color: Colors.red,
+            onPressed: _leaveRoom,
+            isEndCall: true,
+            tooltip: 'Leave Call',
           ),
-          IconButton(
-            icon: Icon(_isVideoOff ? Icons.videocam_off : Icons.videocam),
-            onPressed: _toggleVideo,
+          SizedBox(width: 24),
+          _buildControlButton(
+            icon: _isVideoOff ? Icons.videocam_off : Icons.videocam,
             color: _isVideoOff ? Colors.red : Colors.white,
+            onPressed: _toggleVideo,
+            tooltip: _isVideoOff ? 'Turn Video On' : 'Turn Video Off',
+          ),
+          SizedBox(width: 24),
+          _buildControlButton(
+            icon: Icons.screen_share,
+            color: Colors.white,
+            onPressed: () {
+              // TODO: Implement screen sharing
+            },
+            tooltip: 'Share Screen',
           ),
         ],
+      ),
+    );
+  }
+
+  Widget _buildControlButton({
+    required IconData icon,
+    required Color color,
+    required VoidCallback onPressed,
+    bool isEndCall = false,
+    required String tooltip,
+  }) {
+    return Tooltip(
+      message: tooltip,
+      child: Container(
+        decoration: BoxDecoration(
+          shape: BoxShape.circle,
+          color: isEndCall ? Colors.red : Colors.white24,
+        ),
+        child: IconButton(
+          icon: Icon(icon),
+          onPressed: onPressed,
+          color: isEndCall ? Colors.white : color,
+          iconSize: 28,
+          padding: EdgeInsets.all(12),
+        ),
       ),
     );
   }
