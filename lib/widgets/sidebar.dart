@@ -6,37 +6,6 @@ class Sidebar extends StatelessWidget {
 
   const Sidebar({Key? key, this.user}) : super(key: key);
 
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      width: 250,
-      color: Color(0xFF1A237E),
-      child: Column(
-        children: [
-          SizedBox(height: 50),
-          CircleAvatar(
-            radius: 50,
-            backgroundColor: Colors.white24,
-            child: Icon(Icons.person, size: 50, color: Colors.white),
-          ),
-          SizedBox(height: 10),
-          Text(
-            user?.email?.split('@')[0] ?? 'User',
-            style: TextStyle(color: Colors.white, fontSize: 18),
-          ),
-          SizedBox(height: 30),
-          _buildMenuItem(context, 'Home', Icons.home, () => Navigator.pushReplacementNamed(context, '/home')),
-          _buildMenuItem(context, 'Video Conference', Icons.video_call, () => Navigator.pushNamed(context, '/video')),
-          _buildMenuItem(context, 'Educational Content', Icons.school, () => Navigator.pushReplacementNamed(context, '/education')),
-          _buildMenuItem(context, 'Community Forum', Icons.forum, () {}),
-          _buildMenuItem(context, 'Resources', Icons.library_books, () {}),
-          Spacer(),
-          _buildMenuItem(context, 'Logout', Icons.logout, () => _showLogoutConfirmation(context)),
-        ],
-      ),
-    );
-  }
-
   Widget _buildMenuItem(BuildContext context, String title, IconData icon, VoidCallback onTap) {
     return ListTile(
       leading: Icon(icon, color: Colors.white70),
@@ -70,6 +39,39 @@ class Sidebar extends StatelessWidget {
           ],
         );
       },
+    );
+  }
+
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      width: 250,
+      color: Color(0xFF1A237E),
+      child: Column(
+        children: [
+          SizedBox(height: 50),
+          CircleAvatar(
+            radius: 50,
+            backgroundColor: Colors.white24,
+            child: Icon(Icons.person, size: 50, color: Colors.white),
+          ),
+          SizedBox(height: 10),
+          Text(
+            user?.email?.split('@')[0] ?? 'User',
+            style: TextStyle(color: Colors.white, fontSize: 18),
+          ),
+          SizedBox(height: 30),
+          _buildMenuItem(context, 'Home', Icons.home, () => Navigator.pushReplacementNamed(context, '/home')),
+          _buildMenuItem(context, 'Video Conference', Icons.video_call, () => Navigator.pushNamed(context, '/video')),
+          _buildMenuItem(context, 'Educational Content', Icons.school, () => Navigator.pushReplacementNamed(context, '/education')),
+          _buildMenuItem(context, 'Community Forum', Icons.forum, () {}),
+          _buildMenuItem(context, 'Resources', Icons.library_books, () {}),
+          _buildMenuItem(context, 'Settings', Icons.settings, () => Navigator.pushNamed(context, '/settings')),
+          Spacer(),
+          _buildMenuItem(context, 'Logout', Icons.logout, () => _showLogoutConfirmation(context)),
+        ],
+      ),
     );
   }
 }

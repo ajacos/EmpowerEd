@@ -5,11 +5,11 @@ import 'package:flutter/foundation.dart' show kIsWeb;
 import 'screens/login_screen.dart';
 import 'screens/signup_screen.dart';
 import 'screens/verify_email_screen.dart';
-import 'screens/home_screen.dart' as home;
+import 'screens/home_screen.dart';
 import 'screens/video_conference/index.dart';
 import 'screens/educational_content_screen.dart';
 import 'screens/loading_screen.dart';
-import 'screens/educational_content_screen.dart';
+import 'screens/settings_screen.dart';
 
 // Conditionally import uni_links
 import 'package:uni_links/uni_links.dart' if (dart.library.html) 'package:empowered/utils/web_links.dart';
@@ -21,6 +21,7 @@ void main() async {
     url: 'https://yvaqvatvowoahxqqplze.supabase.co',
     anonKey: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inl2YXF2YXR2b3dvYWh4cXFwbHplIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Mzc1NDU0MDYsImV4cCI6MjA1MzEyMTQwNn0.QKP4EQUIfq_gNe3a0yqoUgwx8cpO591UksDeNCDVleY',
   );
+
 
   runApp(EmpoweredApp());
 }
@@ -143,29 +144,18 @@ class _EmpoweredAppState extends State<EmpoweredApp> with SingleTickerProviderSt
             ? LoadingScreen()
             : FadeTransition(
                 opacity: _fadeAnimation,
-                child: ResponsiveLayout(child: LoginScreen()),
+                child: LoginScreen(),
               ),
       ),
       routes: {
-        '/signup': (context) => ResponsiveLayout(child: SignupScreen()),
-        '/verify-email': (context) => ResponsiveLayout(child: VerifyEmailScreen()),
-        '/home': (context) => ResponsiveLayout(child: home.HomeScreen()),
-        '/video': (context) => ResponsiveLayout(child: VideoConferenceScreen()),
-        '/education': (context) => ResponsiveLayout(child: EducationalContentScreen()),
+        '/signup': (context) => SignupScreen(),
+        '/verify-email': (context) => VerifyEmailScreen(),
+        '/home': (context) => HomeScreen(),
+        '/video': (context) => VideoConferenceScreen(),
         '/education': (context) => EducationalContentScreen(),
+        '/settings': (context) => SettingsScreen(),
       },
     );
-  }
-}
-
-class ResponsiveLayout extends StatelessWidget {
-  final Widget child;
-
-  const ResponsiveLayout({Key? key, required this.child}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return child;
   }
 }
 
