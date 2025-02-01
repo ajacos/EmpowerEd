@@ -96,13 +96,13 @@ class StatsService {
 
     try {
       final now = DateTime.now().toUtc();
-    
+  
       // Try to get existing user stats
       final response = await _supabase
           .from('user_stats')
           .select()
           .eq('user_id', user.id)
-          .single();
+          .maybeSingle();
 
       if (response != null) {
         final lastLogin = DateTime.parse(response['last_login']);
@@ -125,11 +125,12 @@ class StatsService {
           }
 
           // Update user stats
-          await _supabase.from('user_stats').update({
+          await _supabase.from('user_stats').upsert({
+            'user_id': user.id,
             'last_login': now.toIso8601String(),
             'current_streak': currentStreak,
             'highest_streak': highestStreak,
-          }).eq('user_id', user.id);
+          });
         }
       } else {
         // First time login, create new entry
@@ -138,11 +139,14 @@ class StatsService {
           'last_login': now.toIso8601String(),
           'current_streak': 1,
           'highest_streak': 1,
+          'completed_modules': 0,
+          'badges': [],
         });
       }
     } catch (error) {
       print('Error updating login streak: $error');
-      rethrow;
+      // Instead of rethrowing, we'll just log the error
+      // This allows the login process to complete even if streak update fails
     }
   }
 

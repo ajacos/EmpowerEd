@@ -13,28 +13,50 @@ class SettingsScreen extends StatefulWidget {
 class _SettingsScreenState extends State<SettingsScreen> {
   final _formKey = GlobalKey<FormState>();
   final _usernameController = TextEditingController();
-  final _passwordController = TextEditingController();
+  final _currentPasswordController = TextEditingController();
   final _newPasswordController = TextEditingController();
+  final _confirmPasswordController = TextEditingController();
   File? _imageFile;
   bool _isLoading = false;
   String? _errorMessage;
+  String? _currentAvatarUrl;
 
   @override
   void initState() {
     super.initState();
-    _loadCurrentUsername();
+    _loadUserData();
   }
 
-  Future<void> _loadCurrentUsername() async {
-    final user = Supabase.instance.client.auth.currentUser;
-    if (user != null) {
-      final response = await Supabase.instance.client
-          .from('profiles')
-          .select('username')
-          .eq('id', user.id)
-          .single();
+  Future<void> _loadUserData() async {
+    setState(() {
+      _isLoading = true;
+    });
+
+    try {
+      final user = Supabase.instance.client.auth.currentUser;
+      if (user != null) {
+        final response = await Supabase.instance.client
+            .from('profiles')
+            .select('username, avatar_url')
+            .eq('id', user.id)
+            .single();
+
+        if (response.error != null) {
+          throw Exception('Failed to load user data: ${response.error!.message}');
+        }
+
+        setState(() {
+          _usernameController.text = response['username'] ?? '';
+          _currentAvatarUrl = response['avatar_url'];
+        });
+      }
+    } catch (error) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Error loading user data: $error'), backgroundColor: Colors.red),
+      );
+    } finally {
       setState(() {
-        _usernameController.text = response['username'] ?? '';
+        _isLoading = false;
       });
     }
   }
@@ -51,19 +73,27 @@ class _SettingsScreenState extends State<SettingsScreen> {
         if (user == null) throw Exception('User not logged in');
 
         // Update username
-        await Supabase.instance.client.from('profiles').upsert({
-          'id': user.id,
-          'username': _usernameController.text,
-          'updated_at': DateTime.now().toIso8601String(),
-        });
+        final usernameResponse = await Supabase.instance.client
+            .from('profiles')
+            .update({'username': _usernameController.text})
+            .eq('id', user.id);
+
+        if (usernameResponse.error != null) {
+          throw Exception('Failed to update username: ${usernameResponse.error!.message}');
+        }
 
         // Update password if provided
-        if (_passwordController.text.isNotEmpty && _newPasswordController.text.isNotEmpty) {
-          await Supabase.instance.client.auth.updateUser(
+        if (_currentPasswordController.text.isNotEmpty &&
+            _newPasswordController.text.isNotEmpty) {
+          final passwordResponse = await Supabase.instance.client.auth.updateUser(
             UserAttributes(
               password: _newPasswordController.text,
             ),
           );
+
+          if (passwordResponse.error != null) {
+            throw Exception('Failed to update password: ${passwordResponse.error!.message}');
+          }
         }
 
         // Update profile picture if selected
@@ -72,16 +102,34 @@ class _SettingsScreenState extends State<SettingsScreen> {
           final fileExt = _imageFile!.path.split('.').last;
           final fileName = '${DateTime.now().toIso8601String()}.$fileExt';
           final filePath = fileName;
-          await Supabase.instance.client.storage.from('avatars').uploadBinary(
-            filePath,
-            bytes,
-            fileOptions: FileOptions(contentType: 'image/$fileExt'),
-          );
-          final imageUrl = Supabase.instance.client.storage.from('avatars').getPublicUrl(filePath);
-          await Supabase.instance.client.from('profiles').upsert({
-            'id': user.id,
-            'avatar_url': imageUrl,
-            'updated_at': DateTime.now().toIso8601String(),
+
+          final uploadResponse = await Supabase.instance.client.storage
+              .from('avatars')
+              .uploadBinary(
+                filePath,
+                bytes,
+                fileOptions: FileOptions(contentType: 'image/$fileExt'),
+              );
+
+          if (uploadResponse.error != null) {
+            throw Exception('Failed to upload image: ${uploadResponse.error!.message}');
+          }
+
+          final imageUrl = Supabase.instance.client.storage
+              .from('avatars')
+              .getPublicUrl(filePath);
+
+          final avatarResponse = await Supabase.instance.client
+              .from('profiles')
+              .update({'avatar_url': imageUrl})
+              .eq('id', user.id);
+
+          if (avatarResponse.error != null) {
+            throw Exception('Failed to update avatar URL: ${avatarResponse.error!.message}');
+          }
+
+          setState(() {
+            _currentAvatarUrl = imageUrl;
           });
         }
 
@@ -92,6 +140,9 @@ class _SettingsScreenState extends State<SettingsScreen> {
         setState(() {
           _errorMessage = error.toString();
         });
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Error: $_errorMessage'), backgroundColor: Colors.red),
+        );
       } finally {
         setState(() {
           _isLoading = false;
@@ -101,7 +152,8 @@ class _SettingsScreenState extends State<SettingsScreen> {
   }
 
   Future<void> _pickImage() async {
-    final pickedFile = await ImagePicker().pickImage(source: ImageSource.gallery);
+    final pickedFile =
+        await ImagePicker().pickImage(source: ImageSource.gallery);
     if (pickedFile != null) {
       setState(() {
         _imageFile = File(pickedFile.path);
@@ -147,6 +199,39 @@ class _SettingsScreenState extends State<SettingsScreen> {
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
+                            Center(
+                              child: Stack(
+                                children: [
+                                  CircleAvatar(
+                                    radius: 50,
+                                    backgroundImage: _imageFile != null
+                                        ? FileImage(_imageFile!)
+                                        : (_currentAvatarUrl != null
+                                            ? NetworkImage(_currentAvatarUrl!)
+                                            : null) as ImageProvider?,
+                                    child: _imageFile == null &&
+                                            _currentAvatarUrl == null
+                                        ? Icon(Icons.person,
+                                            size: 50, color: Colors.white)
+                                        : null,
+                                  ),
+                                  Positioned(
+                                    bottom: 0,
+                                    right: 0,
+                                    child: CircleAvatar(
+                                      backgroundColor: Colors.white,
+                                      radius: 18,
+                                      child: IconButton(
+                                        icon: Icon(Icons.camera_alt,
+                                            size: 18, color: Color(0xFF3949AB)),
+                                        onPressed: _pickImage,
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                            SizedBox(height: 24),
                             TextFormField(
                               controller: _usernameController,
                               decoration: InputDecoration(
@@ -173,7 +258,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                             ),
                             SizedBox(height: 16),
                             TextFormField(
-                              controller: _passwordController,
+                              controller: _currentPasswordController,
                               decoration: InputDecoration(
                                 labelText: 'Current Password',
                                 labelStyle: TextStyle(color: Colors.white70),
@@ -211,30 +296,40 @@ class _SettingsScreenState extends State<SettingsScreen> {
                               obscureText: true,
                               style: TextStyle(color: Colors.white),
                               validator: (value) {
-                                if (_passwordController.text.isNotEmpty && (value == null || value.isEmpty)) {
+                                if (_currentPasswordController.text.isNotEmpty &&
+                                    (value == null || value.isEmpty)) {
                                   return 'Please enter a new password';
                                 }
                                 return null;
                               },
                             ),
-                            SizedBox(height: 24),
-                            ElevatedButton(
-                              onPressed: _pickImage,
-                              child: Text('Select Profile Picture'),
-                              style: ElevatedButton.styleFrom(
-                                backgroundColor: Colors.transparent,
-                                foregroundColor: Colors.white,
-                                padding: EdgeInsets.symmetric(horizontal: 24, vertical: 12),
-                                side: BorderSide(color: Colors.white),
+                            SizedBox(height: 16),
+                            TextFormField(
+                              controller: _confirmPasswordController,
+                              decoration: InputDecoration(
+                                labelText: 'Confirm New Password',
+                                labelStyle: TextStyle(color: Colors.white70),
+                                enabledBorder: OutlineInputBorder(
+                                  borderSide: BorderSide(color: Colors.white30),
+                                  borderRadius: BorderRadius.circular(8),
+                                ),
+                                focusedBorder: OutlineInputBorder(
+                                  borderSide: BorderSide(color: Colors.white),
+                                  borderRadius: BorderRadius.circular(8),
+                                ),
+                                filled: true,
+                                fillColor: Colors.white.withOpacity(0.1),
                               ),
+                              obscureText: true,
+                              style: TextStyle(color: Colors.white),
+                              validator: (value) {
+                                if (_newPasswordController.text.isNotEmpty &&
+                                    value != _newPasswordController.text) {
+                                  return 'Passwords do not match';
+                                }
+                                return null;
+                              },
                             ),
-                            if (_imageFile != null) ...[
-                              SizedBox(height: 16),
-                              Text(
-                                'Selected image: ${_imageFile!.path.split('/').last}',
-                                style: TextStyle(color: Colors.white),
-                              ),
-                            ],
                             SizedBox(height: 24),
                             if (_errorMessage != null)
                               Padding(
@@ -273,8 +368,9 @@ class _SettingsScreenState extends State<SettingsScreen> {
   @override
   void dispose() {
     _usernameController.dispose();
-    _passwordController.dispose();
+    _currentPasswordController.dispose();
     _newPasswordController.dispose();
+    _confirmPasswordController.dispose();
     super.dispose();
   }
 }
